@@ -24,3 +24,34 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext.versions = [
+    constraintV: "2.0.0",
+    appcompatV: "1.2.0",
+    coreV: "1.3.1",
+    materialV: "1.2.0",
+    junitV: "4.12",
+    android_junitV: "1.1.1",
+    espressoV: "3.2.0",
+    daggerV: "2.27"
+]
+
+ext.common = [
+    constraint: "androidx.constraintlayout:constraintlayout:$versions.constraintV",
+    appcompat: "androidx.appcompat:appcompat:$versions.appcompatV",
+    core_ktx: "androidx.core:core-ktx:$versions.coreV",
+    kotlin_stdlib: "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
+    material: "com.google.android.material:material:$versions.materialV"
+]
+
+ext.tests = [
+    junit: "junit:junit:$versions.junitV",
+    android_junit: "androidx.test.ext:junit:$versions.android_junitV",
+    espresso: "androidx.test.espresso:espresso-core:$versions.espressoV",
+]
+
+ext.dagger = [
+        compiller: "com.google.dagger:dagger-compiler:$versions.daggerV",
+        dagger: "com.google.dagger:dagger:$versions.daggerV"
+]
+
