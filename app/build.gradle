@@ -32,6 +32,7 @@ dependencies {
     implementation common.appcompat
     implementation common.constraint
     implementation common.material
+    implementation common.refresh_layout
 
     //Tests
     testImplementation tests.junit

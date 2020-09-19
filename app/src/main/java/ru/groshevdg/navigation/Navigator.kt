@@ -3,7 +3,7 @@ package ru.groshevdg.navigation
 import android.content.Context
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.groshevdg.ui.ApplicationActivity
-import ru.groshevdg.ui.NewsListFragment
+import ru.groshevdg.ui.news.NewsListFragment
 import ru.groshevdg.ui.WeatherFragment
 import javax.inject.Inject
 

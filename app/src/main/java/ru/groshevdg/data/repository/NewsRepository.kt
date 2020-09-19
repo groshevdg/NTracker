@@ -36,7 +36,7 @@ class NewsRepository constructor(private val apiService: NewsApiService) {
         "energy.rss" to true
     )
 
-    suspend fun getNews() : List<Channel?> {
+    suspend fun getChannels() : List<Channel?> {
         val listOfChannels = mutableListOf<Channel?>()
 
         for (pair in sources) {
