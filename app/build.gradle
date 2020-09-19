@@ -26,15 +26,28 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    //Common
     implementation common.kotlin_stdlib
     implementation common.core_ktx
     implementation common.appcompat
     implementation common.constraint
     implementation common.material
+
+    //Tests
     testImplementation tests.junit
     androidTestImplementation tests.android_junit
     androidTestImplementation tests.espresso
+
+    //Dagger
     implementation dagger.dagger
     kapt dagger.compiller
 
+    //Retrofit
+    implementation retrofit.retrofit
+    implementation retrofit.gson_converter
+
+    //Coroutines
+    implementation coroutines.coroutines_core
+    implementation coroutines.coroutines_android
+    implementation coroutines.coroutines_adapter
 }
