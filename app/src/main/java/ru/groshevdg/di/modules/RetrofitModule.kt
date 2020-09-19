@@ -4,15 +4,15 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import ru.groshevdg.data.network.NewsApiService
+import ru.groshevdg.data.network.XmlOrJsonConverterFactory
 import javax.inject.Singleton
 
 @Module
 class RetrofitModule {
 
     companion object {
-        const val BASE_API_URL = "http://newsapi.org"
+        const val BASE_API_URL = "https://news.yandex.ru"
     }
 
     @Provides
@@ -20,7 +20,7 @@ class RetrofitModule {
     fun provideRetrofit() : Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_API_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(XmlOrJsonConverterFactory())
             .addCallAdapterFactory(CoroutineCallAdapterFactory.invoke())
             .build()
     }

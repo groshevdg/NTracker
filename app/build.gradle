@@ -45,6 +45,7 @@ dependencies {
     //Retrofit
     implementation retrofit.retrofit
     implementation retrofit.gson_converter
+    implementation retrofit.xml_converter
 
     //Coroutines
     implementation coroutines.coroutines_core

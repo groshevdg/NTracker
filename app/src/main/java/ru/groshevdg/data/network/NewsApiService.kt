@@ -1,14 +1,14 @@
 package ru.groshevdg.data.network
 
-import okhttp3.ResponseBody
-import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Url
+import ru.groshevdg.data.network.annotation.Xml
+import ru.groshevdg.models.entity.RssNews
 
 interface NewsApiService {
-    companion object {
-        const val NEWS_URL = "/v2/top-headlines?country=ru&apiKey=6b342c22f66c499d8967ac3661923cd2"
-    }
 
-    @GET(NEWS_URL)
-    fun getNews() : Call<ResponseBody>
+    @Xml
+    @GET
+    suspend fun getNews(@Url url: String) : Response<RssNews>
 }
