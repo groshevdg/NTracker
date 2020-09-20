@@ -2,94 +2,94 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory android:title="Получать следующие катгории новостей"
+    <PreferenceCategory android:title="Получать следующие категории новостей"
         app:iconSpaceReserved="false">
 
-        <CheckBoxPreference android:title="Авто" app:key="auto"
+        <CheckBoxPreference android:title="@string/auto_title" app:key="auto"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Автоcпорт" app:key="auto_racing"
+        <CheckBoxPreference android:title="@string/auto_racing_title" app:key="auto_racing"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Армия и оружие" app:key="army"
+        <CheckBoxPreference android:title="@string/army_title" app:key="army"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="В мире" app:key="world"
+        <CheckBoxPreference android:title="@string/world_title" app:key="world"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Гаджеты" app:key="gadgets"
+        <CheckBoxPreference android:title="@string/gadgets_title" app:key="gadgets"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="ЖКХ" app:key="communal"
+        <CheckBoxPreference android:title="@string/communal_title" app:key="communal"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Здоровье" app:key="health"
+        <CheckBoxPreference android:title="@string/health_title" app:key="health"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Игры" app:key="games"
+        <CheckBoxPreference android:title="@string/games_title" app:key="games"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Интернет" app:key="internet"
+        <CheckBoxPreference android:title="@string/internet_title" app:key="internet"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Киберспорт" app:key="cyber_sport"
+        <CheckBoxPreference android:title="@string/cyber_sport_title" app:key="cyber_sport"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Кино" app:key="movies"
+        <CheckBoxPreference android:title="@string/movies_title" app:key="movies"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Коронавирус" app:key="koronavirus"
+        <CheckBoxPreference android:title="@string/koronavirus_title" app:key="koronavirus"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Космос" app:key="cosmos"
+        <CheckBoxPreference android:title="@string/cosmos_title" app:key="cosmos"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Музыка" app:key="music"
+        <CheckBoxPreference android:title="@string/music_title" app:key="music"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Наука" app:key="science"
+        <CheckBoxPreference android:title="@string/science_title" app:key="science"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Недвижимость" app:key="realty"
+        <CheckBoxPreference android:title="@string/realty_title" app:key="realty"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Общество" app:key="society"
+        <CheckBoxPreference android:title="@string/society_title" app:key="society"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Политика" app:key="politics"
+        <CheckBoxPreference android:title="@string/politics_title" app:key="politics"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Происшествия" app:key="incident"
+        <CheckBoxPreference android:title="@string/incident_title" app:key="incident"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Путешествия" app:key="travels"
+        <CheckBoxPreference android:title="@string/travels_title" app:key="travels"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Спорт" app:key="sport"
+        <CheckBoxPreference android:title="@string/sport_title" app:key="sport"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Театры" app:key="theaters"
+        <CheckBoxPreference android:title="@string/theaters_title" app:key="theaters"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Технологии" app:key="computers"
+        <CheckBoxPreference android:title="@string/computers_title" app:key="computers"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Транспорт" app:key="vehicle"
+        <CheckBoxPreference android:title="@string/vehicle_title" app:key="vehicle"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Финансы" app:key="finances"
+        <CheckBoxPreference android:title="@string/finances_title" app:key="finances"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Шоу-бизнес" app:key="showbusiness"
+        <CheckBoxPreference android:title="@string/showbusiness_title" app:key="showbusiness"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Экология" app:key="ecology"
+        <CheckBoxPreference android:title="@string/ecology_title" app:key="ecology"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Экономика" app:key="business"
+        <CheckBoxPreference android:title="@string/business_title" app:key="business"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
-        <CheckBoxPreference android:title="Энергетика" app:key="energy"
+        <CheckBoxPreference android:title="@string/energy_title" app:key="energy"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
     </PreferenceCategory>

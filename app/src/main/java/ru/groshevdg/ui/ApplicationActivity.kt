@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.toolbar.*
 import ru.groshevdg.App
 import ru.groshevdg.R
+import ru.groshevdg.di.components.ActivityComponent
 import ru.groshevdg.di.components.DaggerActivityComponent
 import ru.groshevdg.di.modules.ActivityModule
 import ru.groshevdg.di.modules.NavModule
@@ -17,6 +18,7 @@ import javax.inject.Inject
 
 class ApplicationActivity @Inject constructor() : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     @Inject lateinit var navigator: Navigator
+    lateinit var activityComponent: ActivityComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +46,7 @@ class ApplicationActivity @Inject constructor() : AppCompatActivity(), BottomNav
     }
 
     private fun setupDagger() {
-        val activityComponent = DaggerActivityComponent.builder()
+        activityComponent = DaggerActivityComponent.builder()
             .applicationComponent(App.instance.appComponent)
             .activityModule(ActivityModule(this))
             .navModule(NavModule())

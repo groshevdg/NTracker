@@ -4,7 +4,7 @@ import ru.groshevdg.data.repository.NewsRepository
 import ru.groshevdg.models.usecase.New
 import javax.inject.Inject
 
-class NewsUseCase constructor(private val newsRepository: NewsRepository) {
+class NewsUseCase @Inject constructor(private val newsRepository: NewsRepository) {
     suspend fun getNews() : List<New> {
         val news = mutableListOf<New>()
         val channelList = newsRepository.getChannels()

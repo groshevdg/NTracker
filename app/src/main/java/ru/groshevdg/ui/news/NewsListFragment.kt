@@ -5,23 +5,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_news_list.*
 import kotlinx.android.synthetic.main.fragment_news_list.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import ru.groshevdg.App
 import ru.groshevdg.R
-import ru.groshevdg.data.repository.NewsRepository
+import ru.groshevdg.di.components.DaggerFragmentComponent
+import ru.groshevdg.di.factory.ViewModelFactory
 import ru.groshevdg.misc.ItemSpaceDecorator
-import ru.groshevdg.models.ui.InnerSelectorItem
-import ru.groshevdg.models.ui.NewsListItems 
+import ru.groshevdg.ui.ApplicationActivity
 import ru.groshevdg.ui.news.adapters.NewsListRecyclerAdapter
-import ru.groshevdg.usecase.NewsUseCase
+import javax.inject.Inject
 
 class NewsListFragment : Fragment() {
     private val adapter = NewsListRecyclerAdapter()
     private lateinit var layoutManager: LinearLayoutManager
+    @Inject lateinit var factory: ViewModelFactory
+    private val viewModel: NewsListViewModel by viewModels { factory }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val fragmentComponent = DaggerFragmentComponent.builder()
+            .activityComponent((activity as ApplicationActivity).activityComponent)
+            .build()
+
+        fragmentComponent.inject(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -31,25 +41,29 @@ class NewsListFragment : Fragment() {
         view.apply {
             fnlNewsRecyclerView.adapter = adapter
             fnlNewsRecyclerView.layoutManager = layoutManager
-            fnlNewsRecyclerView.addItemDecoration(ItemSpaceDecorator(
-                marginTopInDp = 8,
-                marginRightInDp = 0,
-                marginBottomInDp = 16,
-                marginLeftInDp = 0))
+            fnlNewsRecyclerView.addItemDecoration(
+                ItemSpaceDecorator(
+                    marginTopInDp = 8,
+                    marginRightInDp = 0,
+                    marginBottomInDp = 16,
+                    marginLeftInDp = 0
+                )
+            )
+        }
+
+        if (adapter.itemCount == 0) {
+            viewModel.loadNews()
+            view.fnlProgressBar.visibility = View.VISIBLE
         }
 
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val scope = CoroutineScope(Dispatchers.Default)
-        scope.launch {
-            val news = NewsUseCase(NewsRepository(App.instance.apiService)).getNews()
-            val items = mutableListOf<NewsListItems>()
-            items.add(NewsListItems.SelectorItem(mutableListOf(InnerSelectorItem("auto", true, true),
-                InnerSelectorItem("theatre", true, true), InnerSelectorItem("hot_news", true, true))))
-            news.map { items.add(NewsListItems.NewItem(it)) }
-            view.post { adapter.setItems(items) }
-        }
+    override fun onResume() {
+        super.onResume()
+        viewModel.newsLiveData.observe(viewLifecycleOwner, {
+            adapter.setItems(it)
+            fnlProgressBar.visibility = View.GONE
+        })
     }
 }
