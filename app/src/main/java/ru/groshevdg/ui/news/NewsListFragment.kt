@@ -13,7 +13,8 @@ import kotlinx.coroutines.launch
 import ru.groshevdg.App
 import ru.groshevdg.R
 import ru.groshevdg.data.repository.NewsRepository
-import ru.groshevdg.models.ui.NewsListItems
+import ru.groshevdg.models.ui.InnerSelectorItem
+import ru.groshevdg.models.ui.NewsListItems 
 import ru.groshevdg.ui.news.adapters.NewsListRecyclerAdapter
 import ru.groshevdg.usecase.NewsUseCase
 
@@ -38,7 +39,10 @@ class NewsListFragment : Fragment() {
         val scope = CoroutineScope(Dispatchers.Default)
         scope.launch {
             val news = NewsUseCase(NewsRepository(App.instance.apiService)).getNews()
-            view.post { adapter.setItems(news.map { NewsListItems.NewItem(it) }) }
+            val items = mutableListOf<NewsListItems>()
+            items.add(NewsListItems.SelectorItem(mutableListOf(InnerSelectorItem("auto", true, true))))
+            news.map { items.add(NewsListItems.NewItem(it)) }
+            view.post { adapter.setItems(items) }
         }
     }
 }
