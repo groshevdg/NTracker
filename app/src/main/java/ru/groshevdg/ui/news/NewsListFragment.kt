@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import ru.groshevdg.App
 import ru.groshevdg.R
 import ru.groshevdg.data.repository.NewsRepository
+import ru.groshevdg.misc.ItemSpaceDecorator
 import ru.groshevdg.models.ui.InnerSelectorItem
 import ru.groshevdg.models.ui.NewsListItems 
 import ru.groshevdg.ui.news.adapters.NewsListRecyclerAdapter
@@ -30,6 +31,11 @@ class NewsListFragment : Fragment() {
         view.apply {
             fnlNewsRecyclerView.adapter = adapter
             fnlNewsRecyclerView.layoutManager = layoutManager
+            fnlNewsRecyclerView.addItemDecoration(ItemSpaceDecorator(
+                marginTopInDp = 8,
+                marginRightInDp = 0,
+                marginBottomInDp = 16,
+                marginLeftInDp = 0))
         }
 
         return view
@@ -40,7 +46,8 @@ class NewsListFragment : Fragment() {
         scope.launch {
             val news = NewsUseCase(NewsRepository(App.instance.apiService)).getNews()
             val items = mutableListOf<NewsListItems>()
-            items.add(NewsListItems.SelectorItem(mutableListOf(InnerSelectorItem("auto", true, true))))
+            items.add(NewsListItems.SelectorItem(mutableListOf(InnerSelectorItem("auto", true, true),
+                InnerSelectorItem("theatre", true, true), InnerSelectorItem("hot_news", true, true))))
             news.map { items.add(NewsListItems.NewItem(it)) }
             view.post { adapter.setItems(items) }
         }
