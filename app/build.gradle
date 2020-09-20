@@ -52,4 +52,7 @@ dependencies {
     implementation coroutines.coroutines_core
     implementation coroutines.coroutines_android
     implementation coroutines.coroutines_adapter
+
+    //Prefs Screen
+    implementation prefs.prefs
 }

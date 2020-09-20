@@ -10,6 +10,7 @@ import ru.groshevdg.ui.news.adapters.SelectorRecyclerAdapter
 
 class SelectorItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val adapter = SelectorRecyclerAdapter()
+    private var firstTime = true
 
     fun bind(item: NewsListItems.SelectorItem) {
         itemView.apply {
@@ -17,12 +18,16 @@ class SelectorItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
             isSelectorRecyclerView.layoutManager = LinearLayoutManager(this.context,
                 LinearLayoutManager.HORIZONTAL, false)
             adapter.setItems(item.itemsList)
-            isSelectorRecyclerView.addItemDecoration(ItemSpaceDecorator(
-                marginTopInDp = 0,
-                marginRightInDp = 5,
-                marginBottomInDp = 0,
-                marginLeftInDp = 5
-            ))
+
+            if (firstTime) {
+                isSelectorRecyclerView.addItemDecoration(ItemSpaceDecorator(
+                    marginTopInDp = 0,
+                    marginRightInDp = 5,
+                    marginBottomInDp = 0,
+                    marginLeftInDp = 5
+                ))
+                firstTime = false
+            }
         }
     }
 }

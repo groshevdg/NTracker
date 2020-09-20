@@ -27,6 +27,7 @@ class NewsRepository constructor(private val apiService: NewsApiService) {
         "travels.rss" to true,
         "religion.rss" to true,
         "sport.rss" to true,
+        "theaters.rss" to true,
         "computers.rss" to true,
         "vehicle.rss" to true,
         "finances.rss" to true,
