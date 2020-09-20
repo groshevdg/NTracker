@@ -12,15 +12,23 @@ class NewsRepository @Inject constructor(private val apiService: NewsApiService,
         const val RSS = ".rss"
     }
 
+    var channelLoadedState = mutableMapOf<String, Boolean>()
+        private set
+
     suspend fun getChannels() : List<Channel?> {
         val sources = listsUtils.getSourceMap()
         val listOfChannels = mutableListOf<Channel?>()
+        channelLoadedState.clear()
 
         for (pair in sources) {
             if (pair.value) {
                 val response = apiService.getNews("/" + pair.key + RSS)
                 if (response.isSuccessful) {
                     listOfChannels.add(response.body()?.channel)
+                    channelLoadedState[pair.key] = true
+                }
+                else {
+                    channelLoadedState[pair.key] = false
                 }
             }
         }

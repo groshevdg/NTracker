@@ -65,6 +65,9 @@
         <CheckBoxPreference android:title="@string/travels_title" app:key="travels"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 
+        <CheckBoxPreference android:title="@string/religion_title" app:key="religion"
+            app:iconSpaceReserved="false" android:defaultValue="true" />
+
         <CheckBoxPreference android:title="@string/sport_title" app:key="sport"
             app:iconSpaceReserved="false" android:defaultValue="true" />
 

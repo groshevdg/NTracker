@@ -36,6 +36,7 @@ dependencies {
     implementation common.constraint
     implementation common.material
     implementation common.refresh_layout
+    implementation common.fragment
 
     //Tests
     testImplementation tests.junit
@@ -58,6 +59,4 @@ dependencies {
 
     //Prefs Screen
     implementation prefs.prefs
-
-    implementation 'androidx.fragment:fragment-ktx:1.2.5'
 }

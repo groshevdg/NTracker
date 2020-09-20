@@ -6,19 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.fragment_news_list.*
 import kotlinx.android.synthetic.main.fragment_news_list.view.*
 import ru.groshevdg.R
 import ru.groshevdg.di.components.DaggerFragmentComponent
 import ru.groshevdg.di.factory.ViewModelFactory
 import ru.groshevdg.misc.ItemSpaceDecorator
+import ru.groshevdg.models.ui.NewsListItems
 import ru.groshevdg.ui.ApplicationActivity
 import ru.groshevdg.ui.news.adapters.NewsListRecyclerAdapter
 import javax.inject.Inject
 
-class NewsListFragment : Fragment() {
+class NewsListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private val adapter = NewsListRecyclerAdapter()
     private lateinit var layoutManager: LinearLayoutManager
     @Inject lateinit var factory: ViewModelFactory
@@ -37,6 +38,19 @@ class NewsListFragment : Fragment() {
         container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_news_list, container, false)
+
+        view.fnlRefreshLayout.setOnRefreshListener(this)
+        setupRecyclerView(view)
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initialLoadData()
+    }
+
+    private fun setupRecyclerView(view: View) {
         layoutManager = LinearLayoutManager(view.context)
         view.apply {
             fnlNewsRecyclerView.adapter = adapter
@@ -50,20 +64,40 @@ class NewsListFragment : Fragment() {
                 )
             )
         }
+    }
 
-        if (adapter.itemCount == 0) {
-            viewModel.loadNews()
-            view.fnlProgressBar.visibility = View.VISIBLE
-        }
-
-        return view
+    private fun initialLoadData() {
+        viewModel.loadNews()
+        fnlProgressBar.visibility = View.VISIBLE
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.newsLiveData.observe(viewLifecycleOwner, {
-            adapter.setItems(it)
-            fnlProgressBar.visibility = View.GONE
+            if (it.isNotEmpty()) {
+                showLoadedNews(it)
+            }
+            else {
+                showEmptyErrorMessage()
+            }
         })
+    }
+
+    private fun showLoadedNews(it: List<NewsListItems>) {
+        adapter.setItems(it)
+        fnlNewsRecyclerView.visibility = View.VISIBLE
+        fnlProgressBar.visibility = View.GONE
+        fnlRefreshLayout.isRefreshing = false
+        fnlEmptySourceListTextView.visibility = View.GONE
+    }
+
+    override fun onRefresh() {
+        viewModel.loadNews()
+    }
+
+    private fun showEmptyErrorMessage() {
+        fnlEmptySourceListTextView.visibility = View.VISIBLE
+        fnlNewsRecyclerView.visibility = View.GONE
+        fnlProgressBar.visibility = View.GONE
     }
 }

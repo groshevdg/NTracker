@@ -1,9 +1,7 @@
 package ru.groshevdg.models.ui
 
-import ru.groshevdg.models.usecase.New
-
 sealed class NewsListItems {
 
-    class NewItem(val new: New) : NewsListItems()
+    class NewItem(val new: ru.groshevdg.models.usecase.NewItem.New) : NewsListItems()
     class SelectorItem(val itemsList: List<InnerSelectorItem>): NewsListItems()
 }
