@@ -56,15 +56,18 @@ class ApplicationActivity @Inject constructor() : AppCompatActivity(), BottomNav
     }
 
     override fun onBackPressed() {
-        if (navigator.currentFragment == Navigator.NEWS_FRAGMENT) {
-            finish()
-        }
-        else if (navigator.currentFragment == Navigator.SETTINGS_FRAGMENT) {
-            navigator.navigateTo(Navigator.NEWS_FRAGMENT)
-        }
-        else {
-            navigator.currentFragment = Navigator.NEWS_FRAGMENT
-            super.onBackPressed()
+        when (navigator.currentFragment) {
+            Navigator.NEWS_FRAGMENT -> {
+                finish()
+            }
+            Navigator.SETTINGS_FRAGMENT -> {
+                navigator.isUserLeftSettingsFragment = true
+                navigator.navigateTo(Navigator.NEWS_FRAGMENT)
+            }
+            else -> {
+                navigator.currentFragment = Navigator.NEWS_FRAGMENT
+                super.onBackPressed()
+            }
         }
     }
 

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.fragment_news_list.*
@@ -15,6 +16,7 @@ import ru.groshevdg.di.components.DaggerFragmentComponent
 import ru.groshevdg.di.factory.ViewModelFactory
 import ru.groshevdg.misc.ItemSpaceDecorator
 import ru.groshevdg.models.ui.NewsListItems
+import ru.groshevdg.navigation.Navigator
 import ru.groshevdg.ui.ApplicationActivity
 import ru.groshevdg.ui.news.adapters.NewsListRecyclerAdapter
 import javax.inject.Inject
@@ -23,6 +25,7 @@ class NewsListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private val adapter = NewsListRecyclerAdapter()
     private lateinit var layoutManager: LinearLayoutManager
     @Inject lateinit var factory: ViewModelFactory
+    @Inject lateinit var navigator: Navigator
     private val viewModel: NewsListViewModel by viewModels { factory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,22 +76,28 @@ class NewsListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     override fun onResume() {
         super.onResume()
-        viewModel.newsLiveData.observe(viewLifecycleOwner, {
+        viewModel.newsLiveData.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 showLoadedNews(it)
-            }
-            else {
+            } else {
                 showEmptyErrorMessage()
             }
-        })
+        }
     }
 
     private fun showLoadedNews(it: List<NewsListItems>) {
         adapter.setItems(it)
-        fnlNewsRecyclerView.visibility = View.VISIBLE
-        fnlProgressBar.visibility = View.GONE
-        fnlRefreshLayout.isRefreshing = false
-        fnlEmptySourceListTextView.visibility = View.GONE
+        if (navigator.isUserLeftSettingsFragment) {
+            fnlNewsRecyclerView.visibility = View.GONE
+            fnlProgressBar.visibility = View.VISIBLE
+            navigator.isUserLeftSettingsFragment = false
+        }
+        else {
+            fnlNewsRecyclerView.visibility = View.VISIBLE
+            fnlProgressBar.visibility = View.GONE
+            fnlRefreshLayout.isRefreshing = false
+            fnlEmptySourceListTextView.visibility = View.GONE
+        }
     }
 
     override fun onRefresh() {

@@ -13,6 +13,7 @@ class Navigator @Inject constructor(private val context: Context) {
     private val newsFragment = NewsListFragment()
     private val weatherFragment = WeatherFragment()
     private val settingsFragment = SettingsFragment()
+    var isUserLeftSettingsFragment = false
     var currentFragment = 0
 
     companion object {
