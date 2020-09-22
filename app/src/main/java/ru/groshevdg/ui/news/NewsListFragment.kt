@@ -19,9 +19,13 @@ import ru.groshevdg.models.ui.NewsListItems
 import ru.groshevdg.navigation.Navigator
 import ru.groshevdg.ui.ApplicationActivity
 import ru.groshevdg.ui.news.adapters.NewsListRecyclerAdapter
+import ru.groshevdg.ui.news.viewHolders.OnChannelClickedListener
+import ru.groshevdg.ui.news.viewHolders.OnNewClickListener
 import javax.inject.Inject
 
-class NewsListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
+class NewsListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
+    OnNewClickListener, OnChannelClickedListener {
+
     private val adapter = NewsListRecyclerAdapter()
     private lateinit var layoutManager: LinearLayoutManager
     @Inject lateinit var factory: ViewModelFactory
@@ -56,6 +60,7 @@ class NewsListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private fun setupRecyclerView(view: View) {
         layoutManager = LinearLayoutManager(view.context)
         view.apply {
+            adapter.channelClickedListener = this@NewsListFragment
             fnlNewsRecyclerView.adapter = adapter
             fnlNewsRecyclerView.layoutManager = layoutManager
             fnlNewsRecyclerView.addItemDecoration(
@@ -108,5 +113,14 @@ class NewsListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         fnlEmptySourceListTextView.visibility = View.VISIBLE
         fnlNewsRecyclerView.visibility = View.GONE
         fnlProgressBar.visibility = View.GONE
+    }
+
+    override fun onNewClicked(link: String) {
+        viewModel.showSelectedNew(link)
+    }
+
+    override fun onChannelClicked(category: String) {
+        viewModel.setIsChannelSelected(category)
+        viewModel.sortAndShowListWithCategory(category)
     }
 }

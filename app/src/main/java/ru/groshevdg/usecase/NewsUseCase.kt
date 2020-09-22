@@ -14,7 +14,7 @@ class NewsUseCase @Inject constructor(private val newsRepository: NewsRepository
         val channelLoadedState = newsRepository.channelLoadedState
 
         for (pair in channelLoadedState) {
-            news.add(NewItem.Channel(title = pair.key, pair.value))
+            news.add(NewItem.Channel(title = pair.key, isChannelLoaded = pair.value))
         }
 
         for (channel in channelList) {

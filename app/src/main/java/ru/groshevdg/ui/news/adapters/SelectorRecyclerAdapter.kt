@@ -6,9 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.groshevdg.R
 import ru.groshevdg.models.ui.InnerSelectorItem
 import ru.groshevdg.ui.news.viewHolders.InnerSelectorItemViewHolder
+import ru.groshevdg.ui.news.viewHolders.OnChannelClickedListener
 
 class SelectorRecyclerAdapter : RecyclerView.Adapter<InnerSelectorItemViewHolder>() {
+
     private val itemsList = mutableListOf<InnerSelectorItem>()
+    lateinit var channelClickedListener: OnChannelClickedListener
 
     fun setItems(items: List<InnerSelectorItem>) {
         itemsList.clear()
@@ -22,7 +25,7 @@ class SelectorRecyclerAdapter : RecyclerView.Adapter<InnerSelectorItemViewHolder
     }
 
     override fun onBindViewHolder(holder: InnerSelectorItemViewHolder, position: Int) {
-        holder.bind(itemsList[position])
+        holder.bind(itemsList[position], channelClickedListener)
     }
 
     override fun getItemCount(): Int {
