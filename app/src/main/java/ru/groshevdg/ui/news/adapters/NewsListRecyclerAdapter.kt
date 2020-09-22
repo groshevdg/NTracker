@@ -6,10 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.groshevdg.R
 import ru.groshevdg.models.ui.NewsListItems
 import ru.groshevdg.ui.news.viewHolders.NewItemViewHolder
+import ru.groshevdg.ui.news.viewHolders.OnChannelClickedListener
 import ru.groshevdg.ui.news.viewHolders.SelectorItemViewHolder
 
 class NewsListRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val itemsList = mutableListOf<NewsListItems>()
+    lateinit var channelClickedListener: OnChannelClickedListener
 
     companion object {
         const val SELECTOR_ITEM = 0
@@ -36,7 +38,8 @@ class NewsListRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (itemsList[position] is NewsListItems.SelectorItem) {
-            (holder as SelectorItemViewHolder).bind(itemsList[position] as NewsListItems.SelectorItem)
+            (holder as SelectorItemViewHolder).bind(itemsList[position] as NewsListItems.SelectorItem,
+            channelClickedListener)
         } else {
             (holder as NewItemViewHolder).bind(itemsList[position] as NewsListItems.NewItem)
         }

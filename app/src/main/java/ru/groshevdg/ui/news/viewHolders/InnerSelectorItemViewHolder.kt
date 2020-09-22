@@ -10,17 +10,20 @@ import ru.groshevdg.utils.ListsUtils
 
 class InnerSelectorItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    fun bind(item: InnerSelectorItem) {
+    fun bind(item: InnerSelectorItem, clickedListener: OnChannelClickedListener) {
         itemView.apply {
             iisButton.text = itemView.context.getString(ListsUtils.sourceNames[item.selectorName]!!)
-            setupButtonStyle(item)
+            iisButton.isSelected = item.isSelected
+            setupButtonStyle(item, clickedListener)
         }
     }
 
-    private fun View.setupButtonStyle(item: InnerSelectorItem) {
+    private fun View.setupButtonStyle(item: InnerSelectorItem, clickedListener: OnChannelClickedListener) {
         if (item.isLoaded) {
             iisButton.setOnClickListener {
                 iisButton.isSelected = !iisButton.isSelected
+                item.isSelected = !item.isSelected
+                clickedListener.onChannelClicked(iisButton.text.toString())
             }
         } else {
             iisButton.background =

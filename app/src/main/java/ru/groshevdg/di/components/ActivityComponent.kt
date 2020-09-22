@@ -8,6 +8,7 @@ import ru.groshevdg.di.annotation.ActivityScope
 import ru.groshevdg.di.modules.ActivityModule
 import ru.groshevdg.di.modules.NavModule
 import ru.groshevdg.di.modules.UtilsModule
+import ru.groshevdg.navigation.Navigator
 
 @ActivityScope
 @Component(dependencies = [ApplicationComponent::class],
@@ -15,6 +16,7 @@ import ru.groshevdg.di.modules.UtilsModule
 interface ActivityComponent {
     fun apiService() : NewsApiService
     fun context() : Context
+    fun navigator() : Navigator
 
     fun inject(activity: ApplicationActivity)
 }

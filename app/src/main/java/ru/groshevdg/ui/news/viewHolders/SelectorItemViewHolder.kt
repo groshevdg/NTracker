@@ -12,9 +12,10 @@ class SelectorItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     private val adapter = SelectorRecyclerAdapter()
     private var firstTime = true
 
-    fun bind(item: NewsListItems.SelectorItem) {
+    fun bind(item: NewsListItems.SelectorItem, channelClickedListener: OnChannelClickedListener) {
         itemView.apply {
             isSelectorRecyclerView.adapter = adapter
+            adapter.channelClickedListener = channelClickedListener
             isSelectorRecyclerView.layoutManager = LinearLayoutManager(this.context,
                 LinearLayoutManager.HORIZONTAL, false)
             adapter.setItems(item.itemsList)
