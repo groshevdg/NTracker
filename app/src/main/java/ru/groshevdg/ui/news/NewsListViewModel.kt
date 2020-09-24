@@ -21,9 +21,11 @@ class NewsListViewModel @Inject constructor(private val useCase: NewsUseCase) : 
     private var selectorItem: NewsListItems.SelectorItem? = null
     private val defaultUiList: MutableList<NewsListItems> = ArrayList()
     val newsLiveData: LiveData<List<NewsListItems>> = _newsLiveData
+    var isLoaded = false
 
     fun loadNews() {
         viewModelScope.launch {
+            isLoaded = false;
             loadedList.clear()
             channelList.clear()
             defaultUiList.clear()
@@ -51,6 +53,7 @@ class NewsListViewModel @Inject constructor(private val useCase: NewsUseCase) : 
             defaultUiList.addAll(itemsList)
 
             _newsLiveData.postValue(defaultUiList)
+            isLoaded = true
         }
     }
 

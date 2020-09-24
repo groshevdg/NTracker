@@ -32,6 +32,10 @@ class NewsListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     @Inject lateinit var navigator: Navigator
     private val viewModel: NewsListViewModel by viewModels { factory }
 
+    companion object {
+        private const val IS_LOADED_KEY = "isLoaded"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val fragmentComponent = DaggerFragmentComponent.builder()
@@ -39,6 +43,9 @@ class NewsListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             .build()
 
         fragmentComponent.inject(this)
+
+        // update link after recreate fragment while rotation
+        navigator.newsFragment = this
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -54,7 +61,12 @@ class NewsListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initialLoadData()
+        if (!viewModel.isLoaded || navigator.isUserLeftSettingsFragment) {
+            initialLoadData()
+            showProgress()
+        } else if (savedInstanceState != null && !savedInstanceState.getBoolean(IS_LOADED_KEY)) {
+            initialLoadData()
+        }
     }
 
     private fun setupRecyclerView(view: View) {
@@ -87,22 +99,20 @@ class NewsListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             } else {
                 showEmptyErrorMessage()
             }
+
+            if (navigator.isUserLeftSettingsFragment) {
+                showProgress()
+                navigator.isUserLeftSettingsFragment = false
+            }
         }
     }
 
     private fun showLoadedNews(it: List<NewsListItems>) {
         adapter.setItems(it)
-        if (navigator.isUserLeftSettingsFragment) {
-            fnlNewsRecyclerView.visibility = View.GONE
-            fnlProgressBar.visibility = View.VISIBLE
-            navigator.isUserLeftSettingsFragment = false
-        }
-        else {
-            fnlNewsRecyclerView.visibility = View.VISIBLE
-            fnlProgressBar.visibility = View.GONE
-            fnlRefreshLayout.isRefreshing = false
-            fnlEmptySourceListTextView.visibility = View.GONE
-        }
+        fnlNewsRecyclerView.visibility = View.VISIBLE
+        fnlProgressBar.visibility = View.GONE
+        fnlRefreshLayout.isRefreshing = false
+        fnlEmptySourceListTextView.visibility = View.GONE
     }
 
     override fun onRefresh() {
@@ -122,5 +132,16 @@ class NewsListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     override fun onChannelClicked(category: String) {
         viewModel.setIsChannelSelected(category)
         viewModel.sortAndShowListWithCategory(category)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(IS_LOADED_KEY, viewModel.isLoaded)
+    }
+
+    private fun showProgress() {
+            fnlNewsRecyclerView.visibility = View.GONE
+            fnlProgressBar.visibility = View.VISIBLE
+            fnlEmptySourceListTextView.visibility = View.GONE
     }
 }

@@ -16,19 +16,31 @@ import ru.groshevdg.di.modules.NavModule
 import ru.groshevdg.navigation.Navigator
 import javax.inject.Inject
 
-class ApplicationActivity @Inject constructor() : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class ApplicationActivity @Inject constructor() : AppCompatActivity(),
+    BottomNavigationView.OnNavigationItemSelectedListener {
+
     @Inject lateinit var navigator: Navigator
     lateinit var activityComponent: ActivityComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setupDagger()
+
+        if (savedInstanceState != null) {
+            navigator.currentFragment = savedInstanceState.getInt(Navigator.CURRENT_SCREEN_KEY)
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
-        setupDagger()
         amBottomNavView.setOnNavigationItemSelectedListener(this)
-        navigator.navigateTo(Navigator.NEWS_FRAGMENT)
+
+        if (savedInstanceState == null) {
+            // If activity has been recreated, do not navigate to fragment
+            // otherwise onCreate of the fragment will be called twice
+            navigator.navigateTo(Navigator.NEWS_FRAGMENT)
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -56,19 +68,7 @@ class ApplicationActivity @Inject constructor() : AppCompatActivity(), BottomNav
     }
 
     override fun onBackPressed() {
-        when (navigator.currentFragment) {
-            Navigator.NEWS_FRAGMENT -> {
-                finish()
-            }
-            Navigator.SETTINGS_FRAGMENT -> {
-                navigator.isUserLeftSettingsFragment = true
-                navigator.navigateTo(Navigator.NEWS_FRAGMENT)
-            }
-            else -> {
-                navigator.currentFragment = Navigator.NEWS_FRAGMENT
-                super.onBackPressed()
-            }
-        }
+        navigator.onBackPressed()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -82,5 +82,10 @@ class ApplicationActivity @Inject constructor() : AppCompatActivity(), BottomNav
             return true
         }
         return false
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(Navigator.CURRENT_SCREEN_KEY, navigator.currentFragment)
     }
 }
